@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./lib/g2index.js"></script>
+</head>
+<body>
+    <div id="c1"></div>
+    <script type="text/javascript">
+        var data = [
+            {genre: 'Sports', sold: 27500, satisfied: 25000, dissatisfied: 2000},
+            {genre: 'Strategy', sold: 11500, satisfied: 10000, dissatisfied: 1500},
+            {genre: 'Action', sold: 6000, satisfied: 5500, dissatisfied: 500},
+            {genre: 'Shooter', sold: 3500, satisfied: 3000, dissatisfied: 500},
+            {genre: 'Other', sold: 1500, satisfied: 1000, dissatisfied: 500}
+        ];
+        var Frame = G2.Frame;
+        var Stat = G2.Stat;
+        var frame = new Frame(data);
+        // 将'satisfied','dissatisfied'合并成'count'列各自的类型 type = 'satisfied' 或者 type = 'dissatisfied'
+        frame = Frame.combinColumns(frame, ['satisfied', 'dissatisfied'], 'count', 'type', 'genre');
+
+        var chart = new G2.Chart({
+            id : 'c1',
+            width : 800,
+            height : 300,
+            plotCfg: {
+                margin: [50, 80, 50, 60]
+            }
+        });
+        chart.source(frame); // 载入数据源
+        chart.coord('theta'); // 设置坐标系,theta是一种半径固定的极坐标系
+        chart.facet(['genre']); // 设置分面的切割维度,如果不设置就是先各自汇总再进行计算百分比
+        //count列中的数值是['satisfied', 'dissatisfied']的百分比
+        chart.intervalStack().position(Stat.summary.percent('count')).color('type'); // 声明图形语法
+        chart.render();
+
+    </script>
+</body>
+</html>

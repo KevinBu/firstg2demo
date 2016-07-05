@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./lib/g2index.js"></script>
+</head>
+<body>
+    <div id="c1"></div>
+    <script type="text/javascript">
+        var data = [
+            {gender : '男', count : 40},
+            {gender : '女', count : 30}
+        ];
+
+        var chart = new G2.Chart({
+            id : "c1",
+            width : 800,
+            height : 400,
+            plotCfg : {
+                margin : 80,
+                border : {
+                    stroke : "#dddddd",
+                    "stroke-width" : 3,
+                    radius : 10
+                },
+                background : {
+                    fill : "#3F3F4F"
+                }
+            }
+
+        });
+
+        chart.source(data);
+        chart.col("count", {type : "linear", min : 0});
+        chart.interval().position("gender*count").color("gender").size(80);
+        chart.render();
+    </script>
+</body>
+</html>
